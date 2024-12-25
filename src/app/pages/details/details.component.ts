@@ -1,12 +1,12 @@
+import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { WeatherService } from '../../services/weather/weather.service';
-import { forkJoin, Observable, Subscription } from 'rxjs';
-import { UiService } from '../../services/ui/ui.service';
-import { Tweet, TwitterService } from '../../services/twitter/twitter.service';
-import { AsyncPipe, CommonModule, KeyValuePipe, NgClass } from '@angular/common';
-import { ErrorComponent } from '../../ui/error/error.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { forkJoin, Observable, Subscription } from 'rxjs';
+import { Tweet, TwitterService } from '../../services/twitter/twitter.service';
+import { UiService } from '../../services/ui/ui.service';
+import { WeatherService } from '../../services/weather/weather.service';
+import { ErrorComponent } from '../../ui/error/error.component';
 
 interface DetailInfo {
   counter: number;
@@ -33,7 +33,7 @@ const DEFAULT_CITY = 'cities/default.svg';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css'],
   standalone: true,
-  imports: [NgClass, RouterLink, ErrorComponent, AsyncPipe, KeyValuePipe, CommonModule],
+  imports: [NgClass, RouterLink, ErrorComponent, AsyncPipe, CommonModule],
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   twitter = inject(TwitterService);
