@@ -185,7 +185,7 @@
   display: flex;
   flex-flow: row;
   margin-left: 1rem;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 
 .twitter-feed__container {

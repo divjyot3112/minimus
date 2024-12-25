@@ -4,7 +4,7 @@ import { WeatherService } from '../../services/weather/weather.service';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { UiService } from '../../services/ui/ui.service';
 import { Tweet, TwitterService } from '../../services/twitter/twitter.service';
-import { AsyncPipe, KeyValuePipe, NgClass } from '@angular/common';
+import { AsyncPipe, CommonModule, KeyValuePipe, NgClass } from '@angular/common';
 import { ErrorComponent } from '../../ui/error/error.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -12,6 +12,10 @@ interface DetailInfo {
   counter: number;
   temp: number;
   state: string;
+}
+
+interface DetailInfoWithDay extends DetailInfo {
+  day: string;
 }
 
 const CITY_IMAGE_MAP: Record<string, string> = {
@@ -29,7 +33,7 @@ const DEFAULT_CITY = 'cities/default.svg';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css'],
   standalone: true,
-  imports: [NgClass, RouterLink, ErrorComponent, AsyncPipe, KeyValuePipe],
+  imports: [NgClass, RouterLink, ErrorComponent, AsyncPipe, KeyValuePipe, CommonModule],
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   twitter = inject(TwitterService);
@@ -45,6 +49,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   wind?: number;
   today?: string;
   daysForecast?: Record<string, DetailInfo>;
+  daysForecastList?: DetailInfoWithDay[];
   cityIllustrationPath?: string;
   sub2?: Subscription;
   errorMessage?: string;
@@ -84,6 +89,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
           });
           delete dates[Object.keys(dates)[0]];
           this.daysForecast = dates;
+          this.daysForecastList = [];
+          for (const key in this.daysForecast) {
+            this.daysForecastList.push({
+              ...this.daysForecast[key],
+              day: key,
+            });
+          }
+          console.log(this.daysForecastList);
         },
         error: err => {
           this.errorMessage = err.error.message;
